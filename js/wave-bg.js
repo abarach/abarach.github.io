@@ -1,81 +1,118 @@
 const canvas = document.getElementById("wave-bg");
 const ctx = canvas.getContext("2d");
 
-const isMobile =
-  /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-    navigator.userAgent,
-  );
+let width, height, time = 0;
 
-let width, height;
-let waves = [];
-
-function resizeCanvas() {
-  width = canvas.width = window.innerWidth;
-  height = canvas.height = window.innerHeight;
-
-  createWaves();
-}
-
-window.addEventListener("resize", resizeCanvas);
-
-function createWaves() {
-  waves = [];
-
-  const waveCount = isMobile ? 3 : 5;
-
-  for (let i = 0; i < waveCount; i++) {
-    waves.push({
-      y: height * (0.2 + i * 0.15),
-      length: 0.003 + Math.random() * 0.002,
-      amplitude: 30 + Math.random() * 40,
-      speed: 0.5 + Math.random() * 0.8,
-      offset: Math.random() * Math.PI * 2,
-      opacity: 0.16 + Math.random() * 0.12,
-      thickness: 1 + Math.random() * 2,
-    });
-  }
-}
-
-let mouse = {
-  x: width / 2,
-  y: height / 2,
+const mouse = {
+  x: 0,
+  y: 0,
+  radius: 180,
+  active: false,
+  smoothX: 0,
+  smoothY: 0,
 };
 
+function resize() {
+  width = canvas.width = window.innerWidth;
+  height = canvas.height = window.innerHeight;
+}
+window.addEventListener("resize", resize);
+resize();
+
 window.addEventListener("mousemove", (e) => {
-  if (!isMobile) {
-    mouse.x = e.clientX;
-    mouse.y = e.clientY;
-  }
+  mouse.x = e.clientX;
+  mouse.y = e.clientY;
+  mouse.active = true;
 });
 
-function drawWave(wave, time) {
-  ctx.beginPath();
+window.addEventListener("mouseleave", () => {
+  mouse.active = false;
+});
 
-  for (let x = 0; x <= width; x += 8) {
-    const y =
-      wave.y +
-      Math.sin(x * wave.length + time * wave.speed + wave.offset) *
-        wave.amplitude;
-
-    const mouseInfluence = !isMobile
-      ? Math.sin((x - mouse.x) * 0.01) * 10
-      : 0;
-
-    ctx.lineTo(x, y + mouseInfluence);
-  }
-
-  ctx.strokeStyle = `rgba(52, 23, 37, ${wave.opacity})`;
-  ctx.lineWidth = wave.thickness;
-  ctx.stroke();
+function smoothSignalNoise(x) {
+  return (
+    Math.sin(x * 0.012 + time * 0.03) * 0.6 +
+    Math.sin(x * 0.025 + time * 0.02) * 0.3 +
+    Math.sin(x * 0.05 + time * 0.015) * 0.1
+  );
 }
 
-function animate(time) {
+function audioWave(x) {
+  const base =
+    Math.sin(x * 0.015 + time * 0.04) * 18 +
+    Math.sin(x * 0.03 + time * 0.06) * 8 +
+    Math.sin(x * 0.06 + time * 0.08) * 4;
+
+  return base + smoothSignalNoise(x) * 4;
+}
+
+function drawWave({ color, lineWidth, gain, alpha }) {
+  ctx.beginPath();
+  ctx.strokeStyle = color;
+  ctx.globalAlpha = alpha;
+  ctx.lineWidth = lineWidth;
+
+  const baseY = height * (3 / 4);
+
+  mouse.smoothX += (mouse.x - mouse.smoothX) * 0.08;
+  mouse.smoothY += (mouse.y - mouse.smoothY) * 0.08;
+
+  for (let x = 0; x < width; x += 2) {
+    let y = baseY + audioWave(x) * gain;
+
+    if (mouse.active) {
+      const dx = x - mouse.smoothX;
+      const dy = y - mouse.smoothY;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+
+      if (dist < mouse.radius) {
+        const influence = 1 - dist / mouse.radius;
+        const smoothInfluence = influence * influence;
+
+        y += smoothInfluence * 55;
+      }
+    }
+
+    if (x === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  }
+
+  ctx.stroke();
+  ctx.globalAlpha = 1;
+}
+
+function animate() {
   ctx.clearRect(0, 0, width, height);
 
-  waves.forEach((wave) => drawWave(wave, time * 0.001));
+  // white background
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, width, height);
 
+  const wine = "#6B1E3A";
+
+  drawWave({
+    color: wine,
+    lineWidth: 2,
+    gain: 1.1,
+    alpha: 0.9,
+  });
+
+  drawWave({
+    color: wine,
+    lineWidth: 4,
+    gain: 2.0,
+    alpha: 0.18,
+  });
+
+  drawWave({
+    color: wine,
+    lineWidth: 6,
+    gain: 2.8,
+    alpha: 0.08,
+  });
+
+  time += 1;
   requestAnimationFrame(animate);
 }
 
-resizeCanvas();
 animate();

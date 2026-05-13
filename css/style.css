@@ -79,7 +79,7 @@ h6 {
  * LINK STYLE
  *------------------------------------------*/
 a {
-    color: #0015ff;
+    color: #B8913F;
     text-decoration: none;
     -webkit-transition: all 0.3s ease 0s;
     -moz-transition: all 0.3s ease 0s;
@@ -98,7 +98,7 @@ a:active {
 a:hover,
 a:focus {
     text-decoration: none;
-    color: #072cff;
+    color: #C24A73;
 }
 
 p {
@@ -150,17 +150,17 @@ ul {
 
 /*btn-default*/
 .btn-default {
-    color: #2a54f5;
+    color: #C24A73;
     background-color: transparent;
-    border: 2px solid #2a54f5;
+    border: 2px solid #C24A73;
 }
 
 .btn-default:hover,
 .btn-default:focus,
 .btn-default:active:focus {
-    background: #2a54f5;
+    background: #6B1E3A;
     color: #ffffff;
-    border-color: #2a54f5;
+    border-color: #C24A73;
 }
 
 button:focus,
