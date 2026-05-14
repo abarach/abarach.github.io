@@ -13,6 +13,17 @@ Author: themehippo.com
 # Theme Color (link color) #82b541
 # Mid grey (sub header) #f4f4f4
 # -------------------------------------------------------------------*/
+/* Uncomment one or the other for two different color schemes */
+:root {
+    --bg-color: #fefefe; 
+    --link-color-primary: #6B1E3A;
+    --link-color-secondary: #9F7A2F;
+}
+/* :root {
+    --link-color-primary: #9F7A2F;
+    --link-color-secondary: #C24A73;
+} */
+  
 
 body {
     font-family: "Merriweather", serif;
@@ -79,7 +90,7 @@ h6 {
  * LINK STYLE
  *------------------------------------------*/
 a {
-    color: #B8913F;
+    color: var(--link-color-primary);
     text-decoration: none;
     -webkit-transition: all 0.3s ease 0s;
     -moz-transition: all 0.3s ease 0s;
@@ -98,7 +109,7 @@ a:active {
 a:hover,
 a:focus {
     text-decoration: none;
-    color: #C24A73;
+    color: var(--link-color-secondary);
 }
 
 p {
@@ -139,28 +150,28 @@ ul {
 
 /*btn-primary*/
 .btn-primary {
-    background-color: #ffc107;
+    background-color: var(--link-color-secondary);
 }
 
 .btn-primary:hover,
 .btn-primary:focus,
 .btn-primary:active:focus {
-    background: #ff9800;
+    background: var(--link-color-secondary);
 }
 
 /*btn-default*/
 .btn-default {
-    color: #C24A73;
+    color: var(--link-color-secondary);
     background-color: transparent;
-    border: 2px solid #C24A73;
+    border: 2px solid var(--link-color-secondary);
 }
 
 .btn-default:hover,
 .btn-default:focus,
 .btn-default:active:focus {
-    background: #6B1E3A;
-    color: #ffffff;
-    border-color: #C24A73;
+    background: var(--link-color-secondary);
+    color: var(--bg-color);
+    border-color: var(--link-color-secondary);
 }
 
 button:focus,
@@ -235,7 +246,7 @@ button:focus,
  * -------------------*/
 
 .gray-bg {
-    background-color: #ffffff;
+    background-color: #fefefe;
 }
 
 /* --------------------
@@ -453,11 +464,11 @@ button:focus,
 .portfolio-item .portfolio-info h3 {
     margin: 0;
     line-height: 1;
-    color: #ffffff;
+    color: #fefefe;
 }
 
 .portfolio-item .portfolio-info small {
-    color: #ffffff;
+    color: #fefefe;
 }
 
 .portfolio-item:hover .portfolio-info {
@@ -584,13 +595,5 @@ button:focus,
     width: 100%;
     height: 100vh;
     z-index: -1;
-    background-color: #ffffff;
+    background-color: var(--bg-color);
   }
-/* Additional content you might want */
-/* .content {
-    position: relative;
-    z-index: 1;
-    color: white;
-    text-align: center;
-    padding: 20px;
-} */

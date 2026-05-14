@@ -85,27 +85,28 @@ function animate() {
   ctx.clearRect(0, 0, width, height);
 
   // white background
-  ctx.fillStyle = "#ffffff";
+  ctx.fillStyle = "#fefefe";
   ctx.fillRect(0, 0, width, height);
 
-  const wine = "#6B1E3A";
+  const color = "#ACAEBC";    // gray
+  // const color = "#6B1E3A"; // wine
 
   drawWave({
-    color: wine,
+    color: color,
     lineWidth: 2,
     gain: 1.1,
     alpha: 0.9,
   });
 
   drawWave({
-    color: wine,
+    color: color,
     lineWidth: 4,
     gain: 2.0,
     alpha: 0.18,
   });
 
   drawWave({
-    color: wine,
+    color: color,
     lineWidth: 6,
     gain: 2.8,
     alpha: 0.08,
