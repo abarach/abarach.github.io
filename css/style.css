@@ -14,15 +14,15 @@ Author: themehippo.com
 # Mid grey (sub header) #f4f4f4
 # -------------------------------------------------------------------*/
 /* Uncomment one or the other for two different color schemes */
-:root {
+/*:root {
     --bg-color: #fefefe; 
     --link-color-primary: #6B1E3A;
     --link-color-secondary: #9F7A2F;
-}
-/* :root {
+}*/
+:root {
     --link-color-primary: #9F7A2F;
     --link-color-secondary: #C24A73;
-} */
+}
   
 
 body {
