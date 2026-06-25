@@ -88,8 +88,8 @@ function animate() {
   ctx.fillStyle = "#fefefe";
   ctx.fillRect(0, 0, width, height);
 
-  const color = "#ACAEBC";    // gray
-  // const color = "#6B1E3A"; // wine
+  //const color = "#ACAEBC";    // gray
+  const color = "#6B1E3A"; // wine
 
   drawWave({
     color: color,
